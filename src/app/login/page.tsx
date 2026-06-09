@@ -1,21 +1,35 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const errorUrl = searchParams.get('error')
+  
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setErrorMsg('')
     
-    // Simulate login delay
-    setTimeout(() => {
+    const res = await signIn('credentials', {
+      email,
+      password,
+      redirect: false
+    })
+
+    if (res?.error) {
+      setErrorMsg('Credenciales inválidas o usuario no registrado.')
+      setLoading(false)
+    } else {
       router.push('/dashboard')
-    }, 1000)
+    }
   }
 
   return (
@@ -27,6 +41,16 @@ export default function LoginPage() {
         </div>
 
         <form className="login-form" onSubmit={handleLogin}>
+          {errorMsg && (
+            <div className="alert alert-rojo" style={{ marginBottom: 16 }}>
+              {errorMsg}
+            </div>
+          )}
+          {errorUrl && !errorMsg && (
+            <div className="alert alert-rojo" style={{ marginBottom: 16 }}>
+              Acceso denegado. Por favor, inicie sesión.
+            </div>
+          )}
           <div className="form-group">
             <label className="form-label">Correo Institucional</label>
             <input 

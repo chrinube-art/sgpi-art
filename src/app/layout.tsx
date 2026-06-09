@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import AuthProvider from "@/components/providers/AuthProvider";
+
 export const metadata: Metadata = {
   title: "SGPI - Dashboard de Gestión de Proyectos",
   description: "Sistema de Gestión de Proyectos e Histórico Integrado - INIA",
@@ -14,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

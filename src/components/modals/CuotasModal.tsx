@@ -3,56 +3,24 @@
 import { useState, useEffect } from 'react'
 import { type Project, type Cuota } from '@/lib/types'
 import { formatCLP, formatDate } from '@/lib/utils/format'
+import { getCuotasByProject } from '@/app/actions/cuotas'
 
 interface CuotasModalProps {
   project: Project
   onClose: () => void
 }
 
-// Datos de ejemplo mientras se conecta Supabase
-const MOCK_CUOTAS: Cuota[] = [
-  {
-    codigo_proyecto: 'EJ001',
-    cuota: 1, monto: 15000000,
-    fecha_ingreso_cuotas: '2024-03-15', fecha_termino_contrato: '2024-12-31',
-    ingresado_sgpi: true, monto_recibido: 15000000,
-    estado: 'Pagada', fuente_financiamiento: 'FONDECYT',
-  },
-  {
-    codigo_proyecto: 'EJ001',
-    cuota: 2, monto: 20000000,
-    fecha_ingreso_cuotas: '2024-06-15', fecha_termino_contrato: '2024-12-31',
-    ingresado_sgpi: true, monto_recibido: 20000000,
-    estado: 'Pagada', fuente_financiamiento: 'FONDECYT',
-  },
-  {
-    codigo_proyecto: 'EJ001',
-    cuota: 3, monto: 18000000,
-    fecha_ingreso_cuotas: '2024-09-15', fecha_termino_contrato: '2024-12-31',
-    ingresado_sgpi: false, monto_recibido: 0,
-    estado: 'Pendiente', fuente_financiamiento: 'FONDECYT',
-  },
-]
-
 export default function CuotasModal({ project, onClose }: CuotasModalProps) {
   const [cuotas, setCuotas] = useState<Cuota[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // TODO: Reemplazar con consulta real a Supabase
     const loadCuotas = async () => {
       try {
-        const { createClient } = await import('@/lib/supabase/client')
-        const supabase = createClient()
-        const { data } = await supabase
-          .from('cuotas')
-          .select('*')
-          .eq('codigo_proyecto', project.codigo_proyecto)
-          .order('cuota')
-        setCuotas(data ?? [])
-      } catch {
-        // Fallback a datos mock mientras no hay BD
-        setCuotas(MOCK_CUOTAS.map(c => ({ ...c, codigo_proyecto: project.codigo_proyecto })))
+        const data = await getCuotasByProject(project.codigo_proyecto)
+        setCuotas(data)
+      } catch (e) {
+        console.error(e)
       } finally {
         setLoading(false)
       }
