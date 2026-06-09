@@ -109,23 +109,23 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
           
           <select className="form-input" value={filterEstado} onChange={e => setFilterEstado(e.target.value)}>
-            <option value="">Todos los Estados</option>
-            {uniqueEstados.map(e => <option key={e} value={e}>{e}</option>)}
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todos los Estados</option>
+            {uniqueEstados.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
           </select>
 
           <select className="form-input" value={filterFF} onChange={e => setFilterFF(e.target.value)}>
-            <option value="">Todas las Fuentes (F.F)</option>
-            {uniqueFF.map(e => <option key={e} value={e}>{e}</option>)}
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todas las Fuentes (F.F)</option>
+            {uniqueFF.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
           </select>
 
           <select className="form-input" value={filterIR} onChange={e => setFilterIR(e.target.value)}>
-            <option value="">Todos los Investigadores (IR)</option>
-            {uniqueIRs.map(e => <option key={e} value={e}>{e}</option>)}
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todos los Investigadores (IR)</option>
+            {uniqueIRs.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
           </select>
 
           <select className="form-input" value={filterDependencia} onChange={e => setFilterDependencia(e.target.value)}>
-            <option value="">Todas las Dependencias</option>
-            {uniqueDeps.map(e => <option key={e} value={e}>{e}</option>)}
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todas las Dependencias</option>
+            {uniqueDeps.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
           </select>
 
           {(filterEstado || filterFF || filterIR || filterDependencia) && (
