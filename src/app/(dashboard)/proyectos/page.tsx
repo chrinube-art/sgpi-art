@@ -1,4 +1,5 @@
 import ProjectGrid from '@/components/grid/ProjectGrid'
+import DashboardCharts from '@/components/dashboard/DashboardCharts'
 import { turso } from '@/lib/db/turso'
 import { type Project } from '@/lib/types'
 
@@ -52,6 +53,8 @@ export default async function ProyectosPage() {
           </div>
         </div>
       </div>
+
+      <DashboardCharts projects={projects} />
 
       <ProjectGrid data={projects} isAdmin={true} />
     </div>
