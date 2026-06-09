@@ -57,8 +57,8 @@ export default function GlobalDataTables({ initialProjects }: GlobalDataTablesPr
   const TotalsIR = tablaIR.reduce((acc, row) => ({ count: acc.count + row.count, total: acc.total + row.total }), { count: 0, total: 0 })
   const TotalsDep = tablaDep.reduce((acc, row) => ({ count: acc.count + row.count, total: acc.total + row.total }), { count: 0, total: 0 })
 
-  const tableHeaderStyle = { background: '#003366', color: 'white', padding: '8px 12px', textAlign: 'left' as const, fontSize: '14px', border: '1px solid #ddd' }
-  const tableCellStyle = { padding: '8px 12px', border: '1px solid #ddd', fontSize: '13px' }
+  const tableHeaderStyle = { background: '#003366', color: '#ffffff', padding: '12px 16px', textAlign: 'left' as const, fontSize: '13px', borderBottom: '2px solid #002244', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '0.5px' }
+  const tableCellStyle = { padding: '12px 16px', borderBottom: '1px solid #e2e8f0', fontSize: '14px', color: '#1e293b' }
 
   return (
     <div>
@@ -78,8 +78,8 @@ export default function GlobalDataTables({ initialProjects }: GlobalDataTablesPr
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px', alignItems: 'start' }}>
         
         {/* Tabla FF */}
-        <div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+        <div style={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white' }}>
             <thead>
               <tr>
                 <th style={tableHeaderStyle}>Fuente F.</th>
@@ -89,70 +89,70 @@ export default function GlobalDataTables({ initialProjects }: GlobalDataTablesPr
             </thead>
             <tbody>
               {tablaFF.map((row, i) => (
-                <tr key={i} style={{ background: i % 2 === 0 ? '#f8f9fa' : 'white' }}>
-                  <td style={{...tableCellStyle, fontWeight: 500, color: '#003366'}}>{row.name}</td>
-                  <td style={{...tableCellStyle, textAlign: 'center'}}>{row.count}</td>
-                  <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(row.total)}</td>
+                <tr key={i} style={{ background: i % 2 === 0 ? '#f8fafc' : '#ffffff', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseLeave={(e) => e.currentTarget.style.background = i % 2 === 0 ? '#f8fafc' : '#ffffff'}>
+                  <td style={{...tableCellStyle, fontWeight: 600, color: '#0f172a'}}>{row.name}</td>
+                  <td style={{...tableCellStyle, textAlign: 'center', color: '#475569'}}>{row.count}</td>
+                  <td style={{...tableCellStyle, textAlign: 'right', color: '#0f172a', fontWeight: 500}}>{formatCLP(row.total)}</td>
                 </tr>
               ))}
               <tr style={{ background: '#003366', color: 'white', fontWeight: 'bold' }}>
-                <td style={tableCellStyle}>Total general</td>
-                <td style={{...tableCellStyle, textAlign: 'center'}}>{TotalsFF.count}</td>
-                <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(TotalsFF.total)}</td>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#ffffff' }}>Total general</td>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#ffffff' }}>{TotalsFF.count}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', color: '#ffffff' }}>{formatCLP(TotalsFF.total)}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         {/* Tabla IR */}
-        <div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+        <div style={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white' }}>
             <thead>
               <tr>
-                <th style={tableHeaderStyle}>IR</th>
+                <th style={tableHeaderStyle}>Investigador Responsable (IR)</th>
                 <th style={{...tableHeaderStyle, textAlign: 'center'}}>N° de Proyectos</th>
                 <th style={{...tableHeaderStyle, textAlign: 'right'}}>Total $</th>
               </tr>
             </thead>
             <tbody>
               {tablaIR.map((row, i) => (
-                <tr key={i} style={{ background: i % 2 === 0 ? '#f8f9fa' : 'white' }}>
-                  <td style={{...tableCellStyle, fontWeight: 500, color: '#003366'}}>{row.name}</td>
-                  <td style={{...tableCellStyle, textAlign: 'center'}}>{row.count}</td>
-                  <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(row.total)}</td>
+                <tr key={i} style={{ background: i % 2 === 0 ? '#f8fafc' : '#ffffff', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseLeave={(e) => e.currentTarget.style.background = i % 2 === 0 ? '#f8fafc' : '#ffffff'}>
+                  <td style={{...tableCellStyle, fontWeight: 600, color: '#0f172a'}}>{row.name}</td>
+                  <td style={{...tableCellStyle, textAlign: 'center', color: '#475569'}}>{row.count}</td>
+                  <td style={{...tableCellStyle, textAlign: 'right', color: '#0f172a', fontWeight: 500}}>{formatCLP(row.total)}</td>
                 </tr>
               ))}
               <tr style={{ background: '#003366', color: 'white', fontWeight: 'bold' }}>
-                <td style={tableCellStyle}>Total general</td>
-                <td style={{...tableCellStyle, textAlign: 'center'}}>{TotalsIR.count}</td>
-                <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(TotalsIR.total)}</td>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#ffffff' }}>Total general</td>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#ffffff' }}>{TotalsIR.count}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', color: '#ffffff' }}>{formatCLP(TotalsIR.total)}</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         {/* Tabla Dependencia */}
-        <div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+        <div style={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', background: 'white' }}>
             <thead>
               <tr>
                 <th style={tableHeaderStyle}>Dependencia</th>
                 <th style={{...tableHeaderStyle, textAlign: 'center'}}>N° de Proyectos</th>
-                <th style={{...tableHeaderStyle, textAlign: 'right'}}>$Total FF</th>
+                <th style={{...tableHeaderStyle, textAlign: 'right'}}>$ Total FF</th>
               </tr>
             </thead>
             <tbody>
               {tablaDep.map((row, i) => (
-                <tr key={i} style={{ background: i % 2 === 0 ? '#f8f9fa' : 'white' }}>
-                  <td style={{...tableCellStyle, fontWeight: 500, color: '#003366'}}>{row.name}</td>
-                  <td style={{...tableCellStyle, textAlign: 'center'}}>{row.count}</td>
-                  <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(row.total)}</td>
+                <tr key={i} style={{ background: i % 2 === 0 ? '#f8fafc' : '#ffffff', transition: 'background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseLeave={(e) => e.currentTarget.style.background = i % 2 === 0 ? '#f8fafc' : '#ffffff'}>
+                  <td style={{...tableCellStyle, fontWeight: 600, color: '#0f172a'}}>{row.name}</td>
+                  <td style={{...tableCellStyle, textAlign: 'center', color: '#475569'}}>{row.count}</td>
+                  <td style={{...tableCellStyle, textAlign: 'right', color: '#0f172a', fontWeight: 500}}>{formatCLP(row.total)}</td>
                 </tr>
               ))}
               <tr style={{ background: '#003366', color: 'white', fontWeight: 'bold' }}>
-                <td style={tableCellStyle}>Total general</td>
-                <td style={{...tableCellStyle, textAlign: 'center'}}>{TotalsDep.count}</td>
-                <td style={{...tableCellStyle, textAlign: 'right'}}>{formatCLP(TotalsDep.total)}</td>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#ffffff' }}>Total general</td>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#ffffff' }}>{TotalsDep.count}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'right', fontSize: '14px', color: '#ffffff' }}>{formatCLP(TotalsDep.total)}</td>
               </tr>
             </tbody>
           </table>
