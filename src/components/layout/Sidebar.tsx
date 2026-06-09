@@ -23,6 +23,7 @@ interface SidebarProps {
 const NAV_ITEMS: NavItem[] = [
   { section: 'Principal', href: '/dashboard', icon: '⬡', label: 'Panel General' },
   { href: '/proyectos', icon: '📋', label: 'Portafolio de Proyectos' },
+  { href: '/datos-globales', icon: '📊', label: 'Datos Globales' },
   { href: '/semaforos', icon: '🚦', label: 'Monitor de Alertas' },
   { section: 'Módulos', href: '/cuotas', icon: '💰', label: 'Cuotas e Informes' },
   { href: '/cat', icon: '👥', label: 'Carga Anual (CAT)' },
