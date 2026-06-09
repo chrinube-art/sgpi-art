@@ -47,15 +47,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        // @ts-expect-error NextAuth types don't include custom fields by default
         token.role = user.role
+        // @ts-expect-error
         token.centro = user.centro
       }
       return token
     },
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.role = token.role as string
-        session.user.centro = token.centro as string | null
+      if (token) {
+        // @ts-expect-error NextAuth session types don't include custom fields by default
+        session.user.role = token.role
+        // @ts-expect-error
+        session.user.centro = token.centro
       }
       return session
     }

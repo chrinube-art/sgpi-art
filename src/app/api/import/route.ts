@@ -62,7 +62,7 @@ export async function POST(request: Request) {
               r.estado_contrato, r.titulo_proyecto, r.jefe_proyecto, r.estado_proyecto, r.dependencia,
               r.desde, r.hasta, r.monto_ff, r.pecunio_asociado, r.no_pecunio_asociado, r.pecunio_inia,
               r.no_pecunio_inia, r.total_proyecto, r.codigo_externo, macrozona, centro
-            ]
+            ].map(v => v === undefined ? null : v)
           })
         }
         inserted = rows.length
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
               c.codigo_proyecto, c.titulo_proyecto, c.anio, c.cod_dep_empleado, c.dep_empleado, c.empleado,
               c.rut, c.tipo_financiamiento, c.cod_dep, c.dependencia, c.cod_ff, c.fuente_financiamiento,
               c.estado_proyecto, c.ene, c.feb, c.mar, c.abr, c.may, c.jun, c.jul, c.ago, c.sep, c.oct, c.nov, c.dic
-            ]
+            ].map(v => v === undefined ? null : v)
           })
         }
         inserted = cats.length
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
               c.nombre_contrato, c.fuente_financiamiento, c.cuota, c.monto, c.fecha_ingreso_cuotas,
               c.anio_ingreso_cuota, c.mes_ingreso_cuota, c.fecha_termino_contrato, c.fecha_ingreso,
               c.ingresado_sgpi ? 1 : 0, c.monto_recibido
-            ]
+            ].map(v => v === undefined ? null : v)
           })
         }
         inserted = cuotas.length
