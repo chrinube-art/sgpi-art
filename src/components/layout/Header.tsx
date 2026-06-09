@@ -2,6 +2,7 @@
 // components/layout/Header.tsx
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 
 interface HeaderProps {
   title: string
@@ -99,14 +100,7 @@ export default function Header({ title, subtitle, onSearch, actions }: HeaderPro
         className="icon-btn"
         title="Cerrar sesión"
         id="logout-btn"
-        onClick={async () => {
-          try {
-            const { createClient } = await import('@/lib/supabase/client')
-            const supabase = createClient()
-            await supabase.auth.signOut()
-          } catch {}
-          router.push('/login')
-        }}
+        onClick={() => signOut({ callbackUrl: '/login' })}
       >
         🚪
       </button>
