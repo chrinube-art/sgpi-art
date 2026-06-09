@@ -1,5 +1,5 @@
 'use client'
-import Sidebar from '@/components/layout/Sidebar'
+import TopTabsNavigation from '@/components/layout/TopTabsNavigation'
 import Header from '@/components/layout/Header'
 import { useSession, signOut } from 'next-auth/react'
 import { redirect } from 'next/navigation'
@@ -24,22 +24,17 @@ export default function DashboardLayout({
   const zona = (session?.user as any)?.centro || 'Consolidado'
 
   return (
-    <div className="app-layout">
-      <Sidebar 
-        userRole={userRole}
-        userName={userName}
-        zona={zona}
-        alertasRojas={5}
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f0f2f5' }}>
+      <Header 
+        title="SGPI INIA"
+        subtitle="Sistema de Gestión de Proyectos e Histórico Integrado"
       />
-      <main className="main-content">
-        <Header 
-          title="SGPI INIA"
-          subtitle="Sistema de Gestión de Proyectos e Histórico Integrado"
-        />
+      <TopTabsNavigation />
+      <main style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
         <div style={{ padding: '0 24px', display: 'flex', justifyContent: 'flex-end' }}>
-           <button className="btn btn-sm" onClick={() => signOut()} style={{ color: 'var(--text-muted)' }}>Cerrar sesión</button>
+          <button className="btn btn-sm" onClick={() => signOut()} style={{ color: 'var(--text-muted)' }}>Cerrar sesión</button>
         </div>
-        <div className="page-content">
+        <div style={{ background: 'white', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', minHeight: 'calc(100vh - 200px)' }}>
           {children}
         </div>
       </main>

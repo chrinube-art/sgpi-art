@@ -179,7 +179,7 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
               <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
-              <RechartsTooltip formatter={(v: number) => formatCLP(v)} />
+              <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
               <Bar dataKey="value" fill="#003366" />
             </BarChart>
           </ResponsiveContainer>
@@ -193,7 +193,7 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
               <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
-              <RechartsTooltip formatter={(v: number) => formatCLP(v)} />
+              <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
               <Line type="monotone" dataKey="value" stroke="#003366" strokeWidth={3} dot={{r: 4}} />
             </LineChart>
           </ResponsiveContainer>
