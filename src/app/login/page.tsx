@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const errorUrl = searchParams.get('error')
@@ -97,5 +97,13 @@ export default function LoginPage() {
         />
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="login-container"><div className="login-box" style={{textAlign:'center'}}>Cargando plataforma...</div></div>}>
+      <LoginContent />
+    </Suspense>
   )
 }
