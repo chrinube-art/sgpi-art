@@ -10,15 +10,21 @@ interface GlobalDataTablesProps {
 
 export default function GlobalDataTables({ initialProjects }: GlobalDataTablesProps) {
   const [filterEstado, setFilterEstado] = useState<string>('En Ejecución')
+  const [filterDependencia, setFilterDependencia] = useState<string>('')
+  const [filterConcurso, setFilterConcurso] = useState<string>('')
 
   const uniqueEstados = useMemo(() => Array.from(new Set(initialProjects.map(p => p.estado_proyecto || 'Sin Información'))).filter(Boolean).sort(), [initialProjects])
+  const uniqueDependencias = useMemo(() => Array.from(new Set(initialProjects.map(p => p.dependencia || 'Sin Información'))).filter(Boolean).sort(), [initialProjects])
+  const uniqueConcursos = useMemo(() => Array.from(new Set(initialProjects.map(p => p.nombre_ff || 'Sin Información'))).filter(Boolean).sort(), [initialProjects])
 
   const filteredProjects = useMemo(() => {
     return initialProjects.filter(p => {
-      if (!filterEstado) return true
-      return (p.estado_proyecto || 'Sin Información') === filterEstado
+      const matchEstado = filterEstado ? (p.estado_proyecto || 'Sin Información') === filterEstado : true
+      const matchDep = filterDependencia ? (p.dependencia || 'Sin Información') === filterDependencia : true
+      const matchConc = filterConcurso ? (p.nombre_ff || 'Sin Información') === filterConcurso : true
+      return matchEstado && matchDep && matchConc
     })
-  }, [initialProjects, filterEstado])
+  }, [initialProjects, filterEstado, filterDependencia, filterConcurso])
 
   // 1. Fuente Financiamiento
   const tablaFF = useMemo(() => {
@@ -62,17 +68,55 @@ export default function GlobalDataTables({ initialProjects }: GlobalDataTablesPr
 
   return (
     <div>
-      {/* Slicer estilo Excel */}
-      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ background: '#003366', color: 'white', padding: '6px 16px', fontWeight: 'bold', border: '1px solid #003366' }}>Estado Proyecto</div>
-        <select 
-          style={{ padding: '6px', border: '1px solid #003366', width: '200px' }} 
-          value={filterEstado} 
-          onChange={e => setFilterEstado(e.target.value)}
-        >
-          <option value="">(Todos los Estados)</option>
-          {uniqueEstados.map(e => <option key={e} value={e}>{e}</option>)}
-        </select>
+      {/* Slicers estilo Excel */}
+      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ background: '#003366', color: 'white', padding: '6px 16px', fontWeight: 'bold', border: '1px solid #003366', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px' }}>Estado Proyecto</div>
+          <select 
+            style={{ padding: '6px', border: '1px solid #003366', width: '200px', borderTopRightRadius: '4px', borderBottomRightRadius: '4px', background: '#fff', color: '#0f172a' }} 
+            value={filterEstado} 
+            onChange={e => setFilterEstado(e.target.value)}
+          >
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>(Todos los Estados)</option>
+            {uniqueEstados.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
+          </select>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ background: '#003366', color: 'white', padding: '6px 16px', fontWeight: 'bold', border: '1px solid #003366', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px' }}>Dependencia</div>
+          <select 
+            style={{ padding: '6px', border: '1px solid #003366', width: '200px', borderTopRightRadius: '4px', borderBottomRightRadius: '4px', background: '#fff', color: '#0f172a' }} 
+            value={filterDependencia} 
+            onChange={e => setFilterDependencia(e.target.value)}
+          >
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>(Todas las Dependencias)</option>
+            {uniqueDependencias.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
+          </select>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ background: '#003366', color: 'white', padding: '6px 16px', fontWeight: 'bold', border: '1px solid #003366', borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px' }}>Concursos (F.F)</div>
+          <select 
+            style={{ padding: '6px', border: '1px solid #003366', width: '200px', borderTopRightRadius: '4px', borderBottomRightRadius: '4px', background: '#fff', color: '#0f172a' }} 
+            value={filterConcurso} 
+            onChange={e => setFilterConcurso(e.target.value)}
+          >
+            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>(Todos los Concursos)</option>
+            {uniqueConcursos.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
+          </select>
+        </div>
+
+        {(filterEstado || filterDependencia || filterConcurso) && (
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => { setFilterEstado(''); setFilterDependencia(''); setFilterConcurso(''); }}
+            style={{ padding: '6px 16px', marginLeft: 'auto' }}
+          >
+            Limpiar Filtros
+          </button>
+        )}
+
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px', alignItems: 'start' }}>
