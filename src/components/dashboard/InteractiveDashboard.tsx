@@ -148,7 +148,7 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
           <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por Dependencia</h4>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={depData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({name, value}) => `${name.split('-')[1] || name} (${value})`} labelLine={true} style={{ fontSize: '10px', fontWeight: 'bold' }}>
+              <Pie data={depData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({name, value}: any) => `${String(name).split('-')[1] || name} (${value})`} labelLine={true} style={{ fontSize: '10px', fontWeight: 'bold' }}>
                 {depData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
               <RechartsTooltip />
