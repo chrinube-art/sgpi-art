@@ -6,11 +6,11 @@ import ProjectGrid from '@/components/grid/ProjectGrid'
 import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
-  LineChart, Line
+  LineChart, Line, LabelList
 } from 'recharts'
 import { formatCLP } from '@/lib/utils/format'
 
-const COLORS = ['#003366', '#4CAF50', '#FFC107', '#F44336', '#9E9E9E', '#2196F3', '#FF9800', '#9C27B0', '#00BCD4', '#E91E63']
+const COLORS = ['#007a33', '#1e8f49', '#3ba45e', '#59ba74', '#78d08b', '#005c26', '#00401a', '#2c5e3d', '#4d9466', '#a1e0b5']
 
 interface InteractiveDashboardProps {
   initialProjects: Project[]
@@ -145,10 +145,10 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         
         {/* Dependencia */}
         <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10 }}>Proyectos por Dependencia</h4>
+          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por Dependencia</h4>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={depData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({name, value}) => `${value}`}>
+              <Pie data={depData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({name, value}) => `${name.split('-')[1] || name} (${value})`} labelLine={true} style={{ fontSize: '10px', fontWeight: 'bold' }}>
                 {depData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
               <RechartsTooltip />
@@ -159,56 +159,64 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
 
         {/* Proyectos por IR */}
         <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10 }}>Proyectos por IR</h4>
+          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por IR</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={irData} margin={{ top: 5, right: 5, left: 0, bottom: 40 }}>
+            <BarChart data={irData} margin={{ top: 20, right: 5, left: 0, bottom: 40 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
               <YAxis tick={{fontSize: 10}} />
               <RechartsTooltip />
-              <Bar dataKey="value" fill="#003366" />
+              <Bar dataKey="value" fill="#007a33" radius={[4, 4, 0, 0]}>
+                <LabelList dataKey="value" position="top" style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* $ Pecunio por IR */}
         <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10 }}>$ Pecunio Capturado por IR</h4>
+          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>$ Pecunio Capturado por IR</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={pecunioIrData} margin={{ top: 5, right: 5, left: 10, bottom: 40 }}>
+            <BarChart data={pecunioIrData} margin={{ top: 20, right: 5, left: 10, bottom: 40 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
               <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
               <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
-              <Bar dataKey="value" fill="#003366" />
+              <Bar dataKey="value" fill="#3ba45e" radius={[4, 4, 0, 0]}>
+                <LabelList dataKey="value" position="top" formatter={formatShortMoney} style={{ fontSize: 10, fill: '#3ba45e', fontWeight: 'bold' }} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* $ Capturado por F.F */}
         <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10 }}>$ Capturado por F.F</h4>
+          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>$ Capturado por F.F</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={moneyFfData} margin={{ top: 5, right: 5, left: 10, bottom: 40 }}>
+            <LineChart data={moneyFfData} margin={{ top: 20, right: 5, left: 10, bottom: 40 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
               <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
               <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
-              <Line type="monotone" dataKey="value" stroke="#003366" strokeWidth={3} dot={{r: 4}} />
+              <Line type="monotone" dataKey="value" stroke="#007a33" strokeWidth={3} dot={{r: 4, fill: '#007a33'}}>
+                <LabelList dataKey="value" position="top" formatter={formatShortMoney} style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
+              </Line>
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Proyectos por F.F */}
         <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10 }}>Proyectos por F.F</h4>
+          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por F.F</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={ffCounts} layout="vertical" margin={{ top: 5, right: 5, left: 60, bottom: 5 }}>
+            <BarChart data={ffCounts} layout="vertical" margin={{ top: 5, right: 20, left: 60, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
               <XAxis type="number" tick={{fontSize: 10}} />
               <YAxis type="category" dataKey="name" tick={{fontSize: 9}} width={80} />
               <RechartsTooltip />
-              <Bar dataKey="value" fill="#003366" />
+              <Bar dataKey="value" fill="#007a33" radius={[0, 4, 4, 0]}>
+                <LabelList dataKey="value" position="right" style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
