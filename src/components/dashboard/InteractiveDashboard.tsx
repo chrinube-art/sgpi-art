@@ -107,13 +107,27 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
       
       {/* Slicers (Filtros) */}
       <div className="card" style={{ padding: '16px' }}>
-        <h3 style={{ marginBottom: '12px', fontSize: '14px', color: 'var(--text-muted)' }}>Segmentadores / Filtros de Dashboard</h3>
+        <h3 style={{ marginBottom: '16px', fontSize: '14px', color: 'var(--text-muted)' }}>Filtro Rápido: Estado Proyecto</h3>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+          <button 
+            style={{ padding: '6px 16px', borderRadius: '20px', border: '1px solid #007a33', background: filterEstado === '' ? '#007a33' : 'white', color: filterEstado === '' ? 'white' : '#007a33', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+            onClick={() => setFilterEstado('')}
+          >
+            Todos
+          </button>
+          {uniqueEstados.map(e => (
+            <button 
+              key={e}
+              style={{ padding: '6px 16px', borderRadius: '20px', border: '1px solid #007a33', background: filterEstado === e ? '#007a33' : 'white', color: filterEstado === e ? 'white' : '#007a33', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}
+              onClick={() => setFilterEstado(e)}
+            >
+              {e}
+            </button>
+          ))}
+        </div>
+
+        <h3 style={{ marginBottom: '12px', fontSize: '14px', color: 'var(--text-muted)' }}>Más Filtros</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-          
-          <select className="form-input" value={filterEstado} onChange={e => setFilterEstado(e.target.value)}>
-            <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todos los Estados</option>
-            {uniqueEstados.map(e => <option key={e} value={e} style={{ color: '#0f172a', background: '#ffffff' }}>{e}</option>)}
-          </select>
 
           <select className="form-input" value={filterFF} onChange={e => setFilterFF(e.target.value)}>
             <option value="" style={{ color: '#0f172a', background: '#ffffff' }}>Todas las Fuentes (F.F)</option>
@@ -146,10 +160,10 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
         
         {/* Dependencia */}
-        <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por Dependencia</h4>
+        <div className="card" style={{ height: 380, padding: 10 }}>
+          <h4 style={{ textAlign: 'center', fontSize: 14, marginBottom: 15, color: '#007a33', fontWeight: 'bold' }}>Proyectos por Dependencia</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+            <PieChart margin={{ top: 10, right: 10, left: 10, bottom: 30 }}>
               <Pie data={depData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({name, value}: any) => `${String(name).split('-')[1] || name} (${value})`} labelLine={true} style={{ fontSize: '10px', fontWeight: 'bold' }}>
                 {depData.map((e, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
@@ -160,13 +174,13 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         </div>
 
         {/* Proyectos por IR */}
-        <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por IR</h4>
+        <div className="card" style={{ height: 380, padding: 10 }}>
+          <h4 style={{ textAlign: 'center', fontSize: 14, marginBottom: 15, color: '#007a33', fontWeight: 'bold' }}>Proyectos por IR</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={irData} margin={{ top: 20, right: 5, left: 0, bottom: 40 }}>
+            <BarChart data={irData} margin={{ top: 20, right: 5, left: 0, bottom: 90 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
-              <YAxis tick={{fontSize: 10}} />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 11, fill: '#475569'}} />
+              <YAxis tick={{fontSize: 12, fill: '#475569'}} />
               <RechartsTooltip />
               <Bar dataKey="value" fill="#007a33" radius={[4, 4, 0, 0]}>
                 <LabelList dataKey="value" position="top" style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
@@ -176,13 +190,13 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         </div>
 
         {/* $ Pecunio por IR */}
-        <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>$ Pecunio Capturado por IR</h4>
+        <div className="card" style={{ height: 380, padding: 10 }}>
+          <h4 style={{ textAlign: 'center', fontSize: 14, marginBottom: 15, color: '#007a33', fontWeight: 'bold' }}>$ Pecunio Capturado por IR</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={pecunioIrData} margin={{ top: 20, right: 5, left: 10, bottom: 40 }}>
+            <BarChart data={pecunioIrData} margin={{ top: 20, right: 5, left: 10, bottom: 90 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
-              <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 11, fill: '#475569'}} />
+              <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 12, fill: '#475569'}} />
               <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
               <Bar dataKey="value" fill="#3ba45e" radius={[4, 4, 0, 0]}>
                 <LabelList dataKey="value" position="top" formatter={formatShortMoney} style={{ fontSize: 10, fill: '#3ba45e', fontWeight: 'bold' }} />
@@ -192,13 +206,13 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         </div>
 
         {/* $ Capturado por F.F */}
-        <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>$ Capturado por F.F</h4>
+        <div className="card" style={{ height: 380, padding: 10 }}>
+          <h4 style={{ textAlign: 'center', fontSize: 14, marginBottom: 15, color: '#007a33', fontWeight: 'bold' }}>$ Capturado por F.F</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={moneyFfData} margin={{ top: 20, right: 5, left: 10, bottom: 40 }}>
+            <LineChart data={moneyFfData} margin={{ top: 20, right: 5, left: 10, bottom: 90 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 9}} />
-              <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 10}} />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" interval={0} tick={{fontSize: 11, fill: '#475569'}} />
+              <YAxis tickFormatter={formatShortMoney} tick={{fontSize: 12, fill: '#475569'}} />
               <RechartsTooltip formatter={(v: any) => formatCLP(Number(v) || 0)} />
               <Line type="monotone" dataKey="value" stroke="#007a33" strokeWidth={3} dot={{r: 4, fill: '#007a33'}}>
                 <LabelList dataKey="value" position="top" formatter={formatShortMoney} style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
@@ -208,13 +222,13 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
         </div>
 
         {/* Proyectos por F.F */}
-        <div className="card" style={{ height: 320, padding: 10 }}>
-          <h4 style={{ textAlign: 'center', fontSize: 13, marginBottom: 10, color: '#007a33', fontWeight: 'bold' }}>Proyectos por F.F</h4>
+        <div className="card" style={{ height: 380, padding: 10 }}>
+          <h4 style={{ textAlign: 'center', fontSize: 14, marginBottom: 15, color: '#007a33', fontWeight: 'bold' }}>Proyectos por F.F</h4>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={ffCounts} layout="vertical" margin={{ top: 5, right: 20, left: 60, bottom: 5 }}>
+            <BarChart data={ffCounts} layout="vertical" margin={{ top: 5, right: 30, left: 90, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-              <XAxis type="number" tick={{fontSize: 10}} />
-              <YAxis type="category" dataKey="name" tick={{fontSize: 9}} width={80} />
+              <XAxis type="number" tick={{fontSize: 12, fill: '#475569'}} />
+              <YAxis type="category" dataKey="name" tick={{fontSize: 11, fill: '#475569'}} width={120} />
               <RechartsTooltip />
               <Bar dataKey="value" fill="#007a33" radius={[0, 4, 4, 0]}>
                 <LabelList dataKey="value" position="right" style={{ fontSize: 10, fill: '#007a33', fontWeight: 'bold' }} />
