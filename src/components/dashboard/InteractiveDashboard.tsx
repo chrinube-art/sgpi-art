@@ -94,10 +94,12 @@ export default function InteractiveDashboard({ initialProjects }: InteractiveDas
     return Object.entries(counts).map(([name, value]) => ({ name, value })).sort((a,b) => b.value - a.value)
   }, [filteredProjects])
 
-  const formatShortMoney = (val: number) => {
-    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`
-    if (val >= 1000) return `$${(val / 1000).toFixed(0)}k`
-    return `$${val}`
+  const formatShortMoney = (val: any) => {
+    const num = Number(val)
+    if (isNaN(num)) return val
+    if (num >= 1000000) return `$${(num / 1000000).toFixed(1)}M`
+    if (num >= 1000) return `$${(num / 1000).toFixed(0)}k`
+    return `$${num}`
   }
 
   return (
